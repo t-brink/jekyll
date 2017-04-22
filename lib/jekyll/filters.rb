@@ -355,7 +355,12 @@ module Jekyll
         raise Errors::InvalidDateError,
           "Invalid Date: '#{input.inspect}' is not a valid datetime."
       end
-      date.to_time.dup.localtime
+      d = date.to_time.dup.localtime
+      if date.respond_to?(:utc_offset) && Jekyll.preserve_timezones
+        return d.localtime(date.utc_offset)
+      else
+        return d
+      end
     end
 
     private
