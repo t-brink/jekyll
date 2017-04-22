@@ -113,6 +113,21 @@ module Jekyll
       return date if date.to_s.empty?
       time(date).rfc822
     end
+    
+    # Convert date to local timezone or the given timezone.
+    #
+    # date - The Time to convert.
+    # tz - The timezone given as +/-HH:MM, defaults to the local timezone
+    #
+    # Examples
+    #
+    #   localtime(Time.now, "+00:00")
+    #   # => 2017-04-22 19:46:25 0200
+    #
+    # Returns the time in the new timezone.
+    def localtime(date, tz=nil)
+      tz ? time(date).localtime(tz) : time(date).localtime
+    end
 
     # XML escape a string for use. Replaces any special characters with
     # appropriate HTML entity replacements.
